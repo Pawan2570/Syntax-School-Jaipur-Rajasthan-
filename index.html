@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Syntax School</title>
+    <link href="sy.png" rel="icon" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f7f7f7;
+        color: #333;
+        padding-top: 90px;
+      }
+
+      /* Navbar */
+      .navbar {
+        background-color: #ffffff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 30px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 999;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo {
+        height: 60px;
+        margin-right: 15px;
+      }
+
+      .brand-name {
+        color: #00aaff;
+        font-size: 26px;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+
+      .brand-name:hover {
+        color: #000;
+        transform: scale(1.1);
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin-left: 25px;
+        position: relative;
+      }
+
+      .nav-links a {
+        color: #039ae5;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 6px 10px;
+        position: relative;
+        transition: color 0.3s ease;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        background-color: #1c38a9;
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #000;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .menu-toggle {
+        display: none;
+        font-size: 28px;
+        color: #00aaff;
+        cursor: pointer;
+      }
+
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        flex-direction: column;
+        background-color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        z-index: 1000;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        display: flex;
+      }
+
+      .dropdown-menu li a {
+        padding: 10px 20px;
+        color: #333;
+        background-color: #fff;
+        display: block;
+      }
+
+      .dropdown-menu li a:hover {
+        background-color: #00aaff;
+        color: #fff;
+      }
+
+      /* Responsive Navbar */
+      @media (max-width: 800px) {
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          width: 100%;
+          background-color: #353d3df3;
+          position: absolute;
+          top: 90px;
+          left: 0;
+          padding: 15px 0;
+        }
+
+        .nav-links.active {
+          display: flex;
+        }
+
+        .nav-links li {
+          margin: 10px 0;
+          text-align: center;
+        }
+
+        .menu-toggle {
+          display: block;
+        }
+
+        .dropdown-menu {
+          position: static;
+          background-color: transparent;
+          box-shadow: none;
+          display: none;
+        }
+
+        .dropdown.open .dropdown-menu {
+          display: flex;
+        }
+
+        .dropdown-menu li a {
+          color: white;
+          background: none;
+        }
+
+        .dropdown-menu li a:hover {
+          background-color: #00aaff;
+          color: #fff;
+        }
+      }
+
+      /* Hero Section */
+      .hero {
+        position: relative;
+        height: 100vh;
+        background: url("backgroundindx.jpg") no-repeat center center/cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        color: white;
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+      }
+
+      .hero h1,
+      .hero p,
+      .hero .buttons {
+        z-index: 2;
+        position: relative;
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+      }
+
+      #changing-text {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-top: 20px;
+        margin-bottom: 40px;
+        color: #00aaff;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .buttons {
+        margin-top: 20px;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        min-width: 150px;
+        text-align: center;
+      }
+
+      .btn.green {
+        background-color: #00aaff;
+        color: white;
+        border: none;
+      }
+
+      .btn.green:hover {
+        background-color: white;
+        color: #000;
+        border: 2px solid #00aaff;
+        transform: scale(1.05);
+      }
+
+      .btn.white {
+        background-color: white;
+        color: black;
+        border: 2px solid #00aaff;
+      }
+
+      .btn.white:hover {
+        background-color: #00aaff;
+        color: white;
+        transform: scale(1.05);
+      }
+
+      @media (max-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        #changing-text {
+          font-size: 1.3rem;
+          padding: 0 15px;
+        }
+
+        .buttons {
+          flex-direction: column;
+          gap: 15px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero h1 {
+          font-size: 2rem;
+        }
+
+        .btn {
+          font-size: 0.95rem;
+          padding: 10px 20px;
+        }
+      }
+
+  
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="brand">
+        <img src="sy.png" alt="Logo" class="logo" />
+        <span class="brand-name">SYNTAX SCHOOL</span>
+      </div>
+      <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">About</a></li>
+        <li><a href="courses.html">Course</a></li>
+        <li class="dropdown" id="dropdown">
+          <a href="#">Batch ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="web.html">Web Development</a></li>
+            <li><a href="python.html">Python</a></li>
+            <li><a href="#">AI & ML</a></li>
+            <li><a href="data.html">Data Science</a></li>
+          </ul>
+        </li>
+        <li><a href="Contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="overlay"></div>
+      <h1>Welcome to Syntax School</h1>
+      <p id="changing-text">Transform Your Skills</p>
+      <div class="buttons">
+        <a href="courses.html" class="btn green">Get Started</a>
+        <a href="#about" class="btn white">Learn More</a>
+      </div>
+    </section>
+
+ 
+    <!-- JavaScript -->
+    <script>
+      const toggle = document.getElementById("menu-toggle");
+      const nav = document.getElementById("nav-links");
+      toggle.addEventListener("click", () => {
+        nav.classList.toggle("active");
+      });
+
+      const dropdown = document.getElementById("dropdown");
+      dropdown.addEventListener("click", function (event) {
+        event.stopPropagation();
+        this.classList.toggle("open");
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove("open");
+        }
+      });
+
+      const phrases = [
+        "Transform Your Skills and Rise to the Top Developer in Tech.",
+        "Build Real Projects. Grow Real Skills.",
+        "Master Programming. Lead the Future.",
+        "Code Your Dreams into Reality.",
+        "From Beginner to Pro – We’ve Got You Covered.",
+      ];
+
+      let i = 0, j = 0, currentPhrase = [], isDeleting = false;
+
+      function loop() {
+        const textElement = document.getElementById("changing-text");
+
+        if (!isDeleting && j <= phrases[i].length) {
+          currentPhrase.push(phrases[i][j]);
+          j++;
+        }
+
+        if (isDeleting && j >= 0) {
+          currentPhrase.pop();
+          j--;
+        }
+
+        textElement.innerHTML = currentPhrase.join("");
+
+        if (!isDeleting && j === phrases[i].length) {
+          isDeleting = true;
+          setTimeout(loop, 2000);
+          return;
+        }
+
+        if (isDeleting && j === 0) {
+          isDeleting = false;
+          i = (i + 1) % phrases.length;
+        }
+
+        setTimeout(loop, isDeleting ? 40 : 100);
+      }
+
+      loop();
+
+
+
+      
+    </script>
+  </body>
+</html>
